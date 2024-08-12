@@ -18,7 +18,7 @@ app.use((req,res,next) => {
   const origin = req.headers.origin;
   const referer = req.headers.referer;
 
-  if (forbiddenOrigins.includes(origin) || !origin || !referer) {
+  if (forbiddenOrigins.includes(origin) || (!origin && !referer)) {
     console.log('Blocked', req.headers);
     // Send an error response if Origin is undefined
     return res.status(400).json({ error: 'Origin header is required' });
