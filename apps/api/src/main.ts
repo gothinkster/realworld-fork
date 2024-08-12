@@ -16,6 +16,7 @@ const forbiddenOrigins = [
   '*',
   'https://vuex-project-fullstackloyiha.netlify.app/',
   'https://mits-gossau.github.io',
+  'https://blog-platform-woad.vercel.app/',
 ];
 
 app.use((req,res,next) => {
