@@ -25,7 +25,7 @@ app.use((req,res,next) => {
     // Send an error response if Origin is undefined
     return res.status(400).json({ error: 'Origin header is required' });
   }
-  console.log({origin});
+  console.log({origin, referer});
 
   next();
 });
