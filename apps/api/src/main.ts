@@ -12,11 +12,12 @@ const app = express();
 
 app.use((req,res,next) => {
   const origin = req.headers.origin;
-  const host = req.headers.host;
-  const referrer = req.headers.referrer;
-  console.log({origin})
-  console.log({host})
-  console.log({referrer})
+
+  if (!origin) {
+    // Send an error response if Origin is undefined
+    return res.status(400).json({ error: 'Origin header is required' });
+  }
+
   next();
 });
 
