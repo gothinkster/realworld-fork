@@ -18,7 +18,7 @@ app.use((req,res,next) => {
   const origin = req.headers.origin;
   const referer = req.headers.referer;
 
-  const notAllowedOrigin = !origin && origin !== 'null';
+  const notAllowedOrigin = !origin || origin === 'null';
 
   if (forbiddenOrigins.includes(origin) || (notAllowedOrigin && !referer)) {
     // console.log('Blocked', req.headers);
