@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import auth from '../utils/auth';
 import { createUser, getCurrentUser, login, updateUser } from '../services/auth.service';
+import * as apiCache from 'apicache';
+
+const cache = apiCache.middleware;
 
 const router = Router();
 
@@ -42,7 +45,7 @@ router.post('/users/login', async (req: Request, res: Response, next: NextFuncti
  * @route {GET} /user
  * @returns user User
  */
-router.get('/user', auth.required, async (req: Request, res: Response, next: NextFunction) => {
+router.get('/user', cache('1 minute'), auth.required, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = await getCurrentUser(req.auth?.user?.id);
     res.json({ user });

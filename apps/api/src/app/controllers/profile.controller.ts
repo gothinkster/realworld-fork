@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import auth from '../utils/auth';
 import { followUser, getProfile, unfollowUser } from '../services/profile.service';
+import * as apiCache from 'apicache';
+
+const cache = apiCache.middleware;
 
 const router = Router();
 
@@ -13,6 +16,7 @@ const router = Router();
  */
 router.get(
   '/profiles/:username',
+  cache('1 minute'),
   auth.optional,
   async (req: Request, res: Response, next: NextFunction) => {
     try {

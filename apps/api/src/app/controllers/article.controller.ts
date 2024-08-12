@@ -13,6 +13,9 @@ import {
   unfavoriteArticle,
   updateArticle,
 } from '../services/article.service';
+import * as apiCache from 'apicache';
+
+const cache = apiCache.middleware;
 
 const router = Router();
 
@@ -86,6 +89,7 @@ router.post('/articles', auth.required, async (req: Request, res: Response, next
  */
 router.get(
   '/articles/:slug',
+  cache('1 minute'),
   auth.optional,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -148,6 +152,7 @@ router.delete(
  */
 router.get(
   '/articles/:slug/comments',
+  cache('1 minute'),
   auth.optional,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
