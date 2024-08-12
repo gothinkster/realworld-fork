@@ -11,16 +11,16 @@ const app = express();
  */
 
 const forbiddenOrigins = [
-  'https://datadoghq.dev'
+  'https://datadoghq.dev',
+  'null',
+  '*',
 ];
 
 app.use((req,res,next) => {
   const origin = req.headers.origin;
   const referer = req.headers.referer;
 
-  const notAllowedOrigin = !origin || origin === 'null';
-
-  if (forbiddenOrigins.includes(origin) || (notAllowedOrigin && !referer)) {
+  if (forbiddenOrigins.includes(origin) || (!origin && !referer)) {
     // console.log('Blocked', req.headers);
     // Send an error response if Origin is undefined
     return res.status(400).json({ error: 'Origin header is required' });
