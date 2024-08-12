@@ -15,6 +15,7 @@ const forbiddenOrigins = [
   'null',
   '*',
   'https://vuex-project-fullstackloyiha.netlify.app/',
+  'https://mits-gossau.github.io',
 ];
 
 app.use((req,res,next) => {
