@@ -18,6 +18,11 @@ app.use(routes);
 // Serves images
 app.use(express.static(__dirname + '/assets'));
 
+app.use((req,res,next) => {
+  const origin = req.headers.origin;
+  console.log('origin:', origin)
+});
+
 app.get('/', (req: express.Request, res: express.Response) => {
   res.json({ status: 'API is running on /api' });
 });
