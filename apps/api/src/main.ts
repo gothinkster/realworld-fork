@@ -14,6 +14,7 @@ const forbiddenOrigins = [
   'https://datadoghq.dev',
   'null',
   '*',
+  'https://vuex-project-fullstackloyiha.netlify.app/',
 ];
 
 app.use((req,res,next) => {
