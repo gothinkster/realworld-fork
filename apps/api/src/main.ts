@@ -11,8 +11,12 @@ const app = express();
  */
 
 app.use((req,res,next) => {
-  const origin = req.headers.host;
-  console.log('origin:', origin)
+  const origin = req.headers.origin;
+  const host = req.headers.host;
+  const referrer = req.headers.referrer;
+  console.log({origin})
+  console.log({host})
+  console.log({referrer})
   next();
 });
 
