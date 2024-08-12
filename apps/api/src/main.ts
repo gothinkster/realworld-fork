@@ -10,6 +10,12 @@ const app = express();
  * App Configuration
  */
 
+app.use((req,res,next) => {
+  const origin = req.headers.host;
+  console.log('origin:', origin)
+  next();
+});
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,12 +24,8 @@ app.use(routes);
 // Serves images
 app.use(express.static(__dirname + '/assets'));
 
-app.use((req,res,next) => {
-  const origin = req.headers.origin;
-  console.log('origin:', origin)
-});
-
 app.get('/', (req: express.Request, res: express.Response) => {
+  console.log('done')
   res.json({ status: 'API is running on /api' });
 });
 
