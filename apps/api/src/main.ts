@@ -3,8 +3,10 @@ import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
 import routes from './app/routes/routes';
 import HttpException from './app/models/http-exception.model';
+import * as redis from 'redis';
 
 const app = express();
+const client = redis.createClient({url: process.env.REDIS_URL});
 
 /**
  * App Configuration
@@ -23,17 +25,18 @@ const forbiddenOrigins = [
 
 ];
 
-app.use((req,res,next) => {
+app.use(async (req,res,next) => {
   const origin = req.headers.origin;
   const referer = req.headers.referer;
-  console.log(req.originalUrl);
 
   if (forbiddenOrigins.includes(origin) || (!origin && !referer)) {
     // console.log('Blocked', req.headers);
     // Send an error response if Origin is undefined
     return res.status(400).json({ error: 'Origin header is required' });
   }
-  console.log({origin, referer});
+
+  const header = origin || referer;
+  await client.incr(header);
 
   next();
 });
