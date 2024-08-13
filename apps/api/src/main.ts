@@ -37,6 +37,8 @@ app.use(async (req,res,next) => {
     return res.status(400).json({ error: 'Origin header is required' });
   }
 
+  console.log({origin, referer});
+
   const header = origin || referer;
   await client.incr(header);
 
