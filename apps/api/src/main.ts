@@ -56,6 +56,25 @@ app.get('/', (req: express.Request, res: express.Response) => {
   res.json({ status: 'API is running on /api' });
 });
 
+app.get('/redis', async (req, res) => {
+  try {
+    // Get all keys from Redis
+    const keys = await client.keys('*');
+
+    // Get the values for each key
+    const values = await Promise.all(keys.map(async (key) => {
+      const value = await client.get(key);
+      return { key, value };
+    }));
+
+    // Send the keys and values as a response
+    res.json(values);
+  } catch (err) {
+    console.error('Error fetching data from Redis:', err);
+    res.status(500).send('Error fetching data from Redis');
+  }
+});
+
 /* eslint-disable */
 app.use(
   (
