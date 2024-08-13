@@ -14,9 +14,12 @@ const forbiddenOrigins = [
   'https://datadoghq.dev',
   'null',
   '*',
-  'https://vuex-project-fullstackloyiha.netlify.app/',
+  'https://vuex-project-fullstackloyiha.netlify.app',
   'https://mits-gossau.github.io',
-  'https://blog-platform-woad.vercel.app/',
+  'https://blog-platform-woad.vercel.app',
+  'https://filterbar-57906r89m-adilma53s-projects.vercel.app',
+  'https://mediumwebcloneproject.vercel.app',
+
 ];
 
 app.use((req,res,next) => {
