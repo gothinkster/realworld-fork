@@ -19,6 +19,7 @@ const forbiddenOrigins = [
   'https://blog-platform-woad.vercel.app',
   'https://filterbar-57906r89m-adilma53s-projects.vercel.app',
   'https://mediumwebcloneproject.vercel.app',
+  'required',
 
 ];
 
