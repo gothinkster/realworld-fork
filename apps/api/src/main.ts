@@ -8,6 +8,8 @@ import * as redis from 'redis';
 const app = express();
 const client = redis.createClient({url: process.env.REDIS_URL});
 
+client.connect();
+
 /**
  * App Configuration
  */
