@@ -30,7 +30,7 @@ const router = Router();
  * @queryparam favorited
  * @returns articles: list of articles
  */
-router.get('/articles', auth.optional, async (req: Request, res: Response, next: NextFunction) => {
+router.get('/articles', cache('1 minute'), auth.optional, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await getArticles(req.query, req.auth?.user?.id);
     res.json(result);
@@ -47,6 +47,7 @@ router.get('/articles', auth.optional, async (req: Request, res: Response, next:
  */
 router.get(
   '/articles/feed',
+  cache('1 minute'),
   auth.required,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
