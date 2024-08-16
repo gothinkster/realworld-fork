@@ -75,6 +75,10 @@ export const getArticles = async (query: any, id?: number) => {
   });
 
   const articles = await prisma.article.findMany({
+    omit: {
+      body: true,
+      updatedAt: true,
+    },
     where: { AND: andQueries },
     orderBy: {
       createdAt: 'desc',
@@ -90,7 +94,6 @@ export const getArticles = async (query: any, id?: number) => {
       author: {
         select: {
           username: true,
-          bio: true,
           image: true,
           followedBy: true,
         },
@@ -130,6 +133,10 @@ export const getFeed = async (offset: number, limit: number, id: number) => {
     },
     skip: offset || 0,
     take: limit || 10,
+    omit: {
+      body: true,
+      updatedAt: true,
+    },
     include: {
       tagList: {
         select: {
@@ -139,7 +146,6 @@ export const getFeed = async (offset: number, limit: number, id: number) => {
       author: {
         select: {
           username: true,
-          bio: true,
           image: true,
           followedBy: true,
         },
