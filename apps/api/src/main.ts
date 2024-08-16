@@ -27,7 +27,9 @@ const forbiddenOrigins = [
 
 ];
 
+/*
 app.use(async (req,res,next) => {
+
   const origin = req.headers.origin;
   const referer = req.headers.referer;
 
@@ -42,8 +44,11 @@ app.use(async (req,res,next) => {
   const header = origin || referer;
   await client.incr(header);
 
+
+
   next();
 });
+ */
 
 app.use(cors());
 app.use(bodyParser.json());
