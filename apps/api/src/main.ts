@@ -27,7 +27,7 @@ const forbiddenOrigins = [
 
 ];
 
-/*
+
 app.use(async (req,res,next) => {
 
   const origin = req.headers.origin;
@@ -48,7 +48,7 @@ app.use(async (req,res,next) => {
 
   next();
 });
- */
+
 
 app.use(cors());
 app.use(bodyParser.json());
