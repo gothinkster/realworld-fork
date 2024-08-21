@@ -21,6 +21,8 @@ app.use(async (req, res, next) => {
   const header = origin || referer;
   if (header) {
     await client.incr(header.replace(/\/$/, ''));
+  } else {
+    await client.incr('undefined-header');
   }
 
   next();
