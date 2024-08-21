@@ -6,7 +6,7 @@ import HttpException from './app/models/http-exception.model';
 import * as redis from 'redis';
 
 const app = express();
-const client = redis.createClient({url: process.env.REDIS_URL});
+const client = redis.createClient({ url: process.env.REDIS_URL });
 
 client.connect();
 
@@ -14,18 +14,17 @@ client.connect();
  * App Configuration
  */
 
-
-app.use(async (req,res,next) => {
-
+app.use(async (req, res, next) => {
   const origin = req.headers.origin;
   const referer = req.headers.referer;
 
   const header = origin || referer;
-  await client.incr(header.replace(/\/$/, ""));
+  if (header) {
+    await client.incr(header.replace(/\/$/, ''));
+  }
 
   next();
 });
-
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -36,10 +35,9 @@ app.use(routes);
 app.use(express.static(__dirname + '/assets'));
 
 app.get('/', (req: express.Request, res: express.Response) => {
-  console.log('done')
+  console.log('done');
   res.json({ status: 'API is running on /api' });
 });
-
 
 app.get('/redis', async (req, res) => {
   try {
@@ -47,10 +45,12 @@ app.get('/redis', async (req, res) => {
     const keys = await client.keys('*');
 
     // Get the values for each key
-    const values = await Promise.all(keys.map(async (key) => {
-      const value = await client.get(key);
-      return { key, value };
-    }));
+    const values = await Promise.all(
+      keys.map(async key => {
+        const value = await client.get(key);
+        return { key, value };
+      }),
+    );
 
     // Send the keys and values as a response
     res.json(values);
