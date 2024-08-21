@@ -4,7 +4,6 @@ import HttpException from '../models/http-exception.model';
 import profileMapper from '../utils/profile.utils';
 import articleMapper from '../mappers/article.mapper';
 import { Tag } from '../models/tag.model';
-import { uuid } from 'uuidv4';
 
 const buildFindAllQuery = (query: any, id: number | undefined) => {
   const queries: any = [];
@@ -182,7 +181,7 @@ export const createArticle = async (article: any, id: number) => {
     throw new HttpException(422, { errors: { body: ["can't be blank"] } });
   }
 
-  const slug = `${slugify(title)}-${uuid()}`;
+  const slug = `${slugify(title)}-${id}`;
 
   const existingTitle = await prisma.article.findUnique({
     where: {
