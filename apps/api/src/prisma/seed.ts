@@ -38,16 +38,23 @@ export const generateComment = async (id: number, slug: string) =>
   addComment(randParagraph(), slug, id);
 
 export const main = async () => {
-  const users = await Promise.all(Array.from({ length: 30 }, () => generateUser()));
+  const users = await Promise.all(Array.from({ length: 11 }, () => generateUser()));
   users?.map(user => user);
 
   // eslint-disable-next-line no-restricted-syntax
   for await (const user of users) {
-    const articles = await Promise.all(Array.from({ length: 20 }, () => generateArticle(user.id)));
+    const articles = [];
+
+    for (let i = 0; i < 20; i++) {
+      const article = await generateArticle(user.id);
+      articles.push(article);
+    }
 
     // eslint-disable-next-line no-restricted-syntax
     for await (const article of articles) {
-      await Promise.all(users.map(userItem => generateComment(userItem.id, article.slug)));
+      for await (const user of users) {
+        await generateComment(user.id, article.slug);
+      }
     }
   }
 };

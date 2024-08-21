@@ -14,37 +14,14 @@ client.connect();
  * App Configuration
  */
 
-const forbiddenOrigins = [
-  'https://datadoghq.dev',
-  'null',
-  '*',
-  'https://vuex-project-fullstackloyiha.netlify.app',
-  'https://mits-gossau.github.io',
-  'https://blog-platform-woad.vercel.app',
-  'https://filterbar-57906r89m-adilma53s-projects.vercel.app',
-  'https://mediumwebcloneproject.vercel.app',
-  'required',
-
-];
-
 
 app.use(async (req,res,next) => {
 
   const origin = req.headers.origin;
   const referer = req.headers.referer;
 
-  if (forbiddenOrigins.includes(origin) || (!origin && !referer)) {
-    // console.log('Blocked', req.headers);
-    // Send an error response if Origin is undefined
-    return res.status(400).json({ error: 'Origin header is required' });
-  }
-
-  console.log({origin, referer});
-
   const header = origin || referer;
-  await client.incr(header);
-
-
+  await client.incr(header.replace(/\/$/, ""));
 
   next();
 });
@@ -62,6 +39,7 @@ app.get('/', (req: express.Request, res: express.Response) => {
   console.log('done')
   res.json({ status: 'API is running on /api' });
 });
+
 
 app.get('/redis', async (req, res) => {
   try {
