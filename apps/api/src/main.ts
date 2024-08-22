@@ -18,8 +18,6 @@ app.use(async (req, res, next) => {
   const origin = req.headers.origin;
   const referer = req.headers.referer;
 
-  console.log(req.headers);
-
   const header = origin || referer;
   if (header) {
     await client.incr(header.replace(/\/$/, ''));
