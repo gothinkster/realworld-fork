@@ -6,27 +6,10 @@ import HttpException from './app/models/http-exception.model';
 import * as redis from 'redis';
 
 const app = express();
-const client = redis.createClient({ url: process.env.REDIS_URL });
-
-client.connect();
 
 /**
  * App Configuration
  */
-
-app.use(async (req, res, next) => {
-  const origin = req.headers.origin;
-  const referer = req.headers.referer;
-
-  const header = origin || referer;
-  if (header) {
-    await client.incr(header.replace(/\/$/, ''));
-  } else {
-    await client.incr('undefined-header');
-  }
-
-  next();
-});
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -39,27 +22,6 @@ app.use(express.static(__dirname + '/assets'));
 app.get('/', (req: express.Request, res: express.Response) => {
   console.log('done');
   res.json({ status: 'API is running on /api' });
-});
-
-app.get('/redis', async (req, res) => {
-  try {
-    // Get all keys from Redis
-    const keys = await client.keys('*');
-
-    // Get the values for each key
-    const values = await Promise.all(
-      keys.map(async key => {
-        const value = await client.get(key);
-        return { key, value };
-      }),
-    );
-
-    // Send the keys and values as a response
-    res.json(values);
-  } catch (err) {
-    console.error('Error fetching data from Redis:', err);
-    res.status(500).send('Error fetching data from Redis');
-  }
 });
 
 /* eslint-disable */
